@@ -513,40 +513,60 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // -------------------------------------------------------------
-  // MENSAJE PERSONALIZADO EDITABLE / GUARDABLE
+  // MENSAJE PERSONALIZADO
   // -------------------------------------------------------------
   const btnEditMessage = document.getElementById('btnEditMessage');
   const btnSaveMessage = document.getElementById('btnSaveMessage');
   const birthdayMessageContainer = document.getElementById('birthdayMessageContainer');
 
-  // Recuperar mensaje previo si existiera en LocalStorage
-  const savedMsg = localStorage.getItem('dani_birthday_msg');
-  if (savedMsg) {
-    birthdayMessageContainer.innerHTML = savedMsg;
+  if (btnEditMessage && btnSaveMessage && birthdayMessageContainer) {
+    // Recuperar mensaje previo si existiera en LocalStorage
+    const savedMsg = localStorage.getItem('dani_birthday_msg');
+    if (savedMsg) {
+      birthdayMessageContainer.innerHTML = savedMsg;
+    }
+
+    btnEditMessage.addEventListener('click', () => {
+      birthdayMessageContainer.contentEditable = "true";
+      birthdayMessageContainer.classList.add('editable-active');
+      birthdayMessageContainer.focus();
+      btnEditMessage.classList.add('hidden');
+      btnSaveMessage.classList.remove('hidden');
+    });
+
+    btnSaveMessage.addEventListener('click', () => {
+      birthdayMessageContainer.contentEditable = "false";
+      birthdayMessageContainer.classList.remove('editable-active');
+      btnSaveMessage.classList.add('hidden');
+      btnEditMessage.classList.remove('hidden');
+      localStorage.setItem('dani_birthday_msg', birthdayMessageContainer.innerHTML);
+      megaExplosionConfetti();
+    });
   }
 
-  btnEditMessage.addEventListener('click', () => {
-    birthdayMessageContainer.contentEditable = "true";
-    birthdayMessageContainer.classList.add('editable-active');
-    birthdayMessageContainer.focus();
-    btnEditMessage.classList.add('hidden');
-    btnSaveMessage.classList.remove('hidden');
-  });
-
-  btnSaveMessage.addEventListener('click', () => {
-    birthdayMessageContainer.contentEditable = "false";
-    birthdayMessageContainer.classList.remove('editable-active');
-    btnSaveMessage.classList.add('hidden');
-    btnEditMessage.classList.remove('hidden');
-    // Guardar en localStorage
-    localStorage.setItem('dani_birthday_msg', birthdayMessageContainer.innerHTML);
-    megaExplosionConfetti();
-  });
-
-  // Botón más confeti
+  // -------------------------------------------------------------
+  // BOTÓN MÁS CONFETI Y CHISPAS (MEGA FIESTA)
+  // -------------------------------------------------------------
   const btnMoreConfetti = document.getElementById('btnMoreConfetti');
-  btnMoreConfetti.addEventListener('click', () => {
-    megaExplosionConfetti();
-  });
+  if (btnMoreConfetti) {
+    btnMoreConfetti.addEventListener('click', () => {
+      // 1. Confeti masivo desde varios puntos
+      megaExplosionConfetti();
+      triggerConfetti(0.3, { origin: { x: 0.1, y: 0.5 }, spread: 80, angle: 60 });
+      triggerConfetti(0.3, { origin: { x: 0.9, y: 0.5 }, spread: 80, angle: 120 });
+      triggerConfetti(0.4, { origin: { x: 0.5, y: 0.8 }, spread: 100, startVelocity: 60 });
+
+      // 2. Ráfaga gigante de chispas en el canvas desde los volcanes
+      if (ctx) {
+        const leftX = window.innerWidth * 0.35;
+        const rightX = window.innerWidth * 0.65;
+        const volcanoY = window.innerHeight * 0.55;
+        for (let i = 0; i < 40; i++) {
+          sparks.push(createSpark(leftX, volcanoY, true));
+          sparks.push(createSpark(rightX, volcanoY, true));
+        }
+      }
+    });
+  }
 
 });
