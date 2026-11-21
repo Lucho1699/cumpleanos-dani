@@ -221,12 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // NIVEL 2: COMPLETAR NOMBRES (TOP DE PERSONAS QUE TE QUIEREN)
   // -------------------------------------------------------------
   const squadNames = [
-    { rank: 1, name: "Luchitto Diaz", hint: "El número 1 indiscutible y autor intelectual de esto 😎" },
-    { rank: 2, name: "Sergei", hint: "El incondicional que siempre te saca risas" },
-    { rank: 3, name: "Geripsita", hint: "Compañía top que nunca falla" },
-    { rank: 4, name: "Andreina Roina", hint: "Pura alegría y buena energía" },
-    { rank: 5, name: "Willy Rex", hint: "El crack legendario de las risas" },
-    { rank: 6, name: "Nellisita Morenita", hint: "Dulzura y cariño al 100%" }
+    { rank: 1, name: "Luchitto Diaz", hint: "Luiz Diaz" },
+    { rank: 2, name: "Sergei", hint: "Gay" },
+    { rank: 3, name: "Geripsita", hint: "No se" },
+    { rank: 4, name: "Andreina Roina", hint: "Valerina Capuchina" },
+    { rank: 5, name: "Willy Rex", hint: "Rex" },
+    { rank: 6, name: "Nellisita Morenita", hint: "Morenita" }
   ];
 
   let currentWordIdx = 0;
