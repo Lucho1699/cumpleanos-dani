@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>¡Feliz Cumpleaños Dani! 🎉</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Chewy&family=Fredoka+One&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Audio Elements -->
+  <audio id="audio-plim" src="Musica/Hoy%20es%20tu%20cumplea%C3%B1os%20(Arafa)%20-%20El%20Payaso%20Plim%20Plim.mp3" preload="auto" loop></audio>
+  <audio id="audio-aura" src="Musica/Musica%20para%20batallas%20de%20aura%20-%20KingSama.mp3" preload="auto" loop></audio>
+
+  <!-- Control flotante de Audio -->
+  <div class="audio-control-badge" id="musicToggleBtn" title="Activar/Silenciar música">
+    <span id="musicIcon">🎵</span>
+    <span id="musicText">Música: On</span>
+  </div>
+
+  <!-- PANTALLA DE BIENVENIDA / START -->
+  <div id="screen-start" class="screen active">
+    <div class="start-card glass-panel">
+      <div class="badge-pill">🎂 Misión Especial de Cumpleaños</div>
+      <h1 class="bounce-title">¡HOLA DANI!</h1>
+      <p class="subtitle">Has sido convocada para un desafío legendario.</p>
+      
+      <div class="character-preview-banner">
+        <img src="Personajes/tumtumtum-sahurrrrr.gif" class="mini-char bounce-slow" alt="Tung Tung Sahur">
+        <img src="Personajes/valerina capuchina.jpg" class="mini-char spin-slow" alt="Valerina Capuchina">
+        <img src="Personajes/tralalelo tralala.avif" class="mini-char wobble-slow" alt="Tralalelo Tralala">
+      </div>
+
+      <div class="rules-box">
+        <p>Supera los <strong>3 niveles</strong> para desbloquear tu sorpresa legendaria y obtener el...</p>
+        <div class="fire-text">🔥 AURA MÁXIMO 🔥</div>
+      </div>
+
+      <button id="btnStartGame" class="btn-primary pulse-btn">
+        <span>🎮 EMPEZAR AVENTURA</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- NIVEL 1: ROMPECABEZAS SLIDER TUNG TUNG SAHUR -->
+  <div id="screen-level1" class="screen">
+    <div class="level-header">
+      <div class="level-indicator">NIVEL 1 DE 3</div>
+      <h2>🧩 Rompecabezas de Tung Tung Sahur</h2>
+      <p>Ordena las piezas para despertar a Tung Tung Sahur antes de su cumple</p>
+    </div>
+
+    <div class="game-box glass-panel">
+      <div class="puzzle-wrapper">
+        <div id="puzzle-board" class="puzzle-board"></div>
+        <div class="puzzle-reference">
+          <small>Referencia:</small>
+          <img src="Personajes/tun tun sahur 2.webp" alt="Referencia Tung Tung Sahur">
+          <button id="btnAutoSolvePuzzle" class="btn-text">💡 Resolver Mágicamente</button>
+        </div>
+      </div>
+      <div class="level-footer">
+        <div id="puzzle-moves" class="stat-badge">Movimientos: 0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIVEL 2: COMPLETAR NOMBRES (TOP PERSONAS QUE TE QUIEREN) -->
+  <div id="screen-level2" class="screen">
+    <div class="level-header">
+      <div class="level-indicator">NIVEL 2 DE 3</div>
+      <h2>💖 Top de Personas que te Quieren</h2>
+      <p>Descubre y completa los nombres de tu escuadrón favorito</p>
+    </div>
+
+    <div class="game-box glass-panel max-w-700">
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="names-progress-bar"></div>
+        <span id="names-progress-text">0 de 6 completados</span>
+      </div>
+
+      <div class="word-clue-card" id="current-word-card">
+        <div class="top-ranking-badge" id="word-rank-badge">🏆 TOP #1</div>
+        <div class="word-hint-title" id="word-hint-title">Pista: ...</div>
+        
+        <!-- Letras para completar -->
+        <div class="slots-container" id="word-slots-container"></div>
+
+        <!-- Teclado interactivo de letras desordenadas -->
+        <div class="letters-pool" id="letters-pool"></div>
+
+        <div class="word-actions">
+          <button id="btnResetCurrentWord" class="btn-secondary">🔄 Borrar</button>
+          <button id="btnSkipWord" class="btn-text">💡 Revelar este nombre</button>
+        </div>
+      </div>
+
+      <div class="completed-names-list" id="completed-names-list">
+        <!-- Nombres resueltos se van agregando aquí con medallas -->
+      </div>
+    </div>
+  </div>
+
+  <!-- NIVEL 3: COFRE / RULETA TEMU EXPLOSIÓN PREMIO -->
+  <div id="screen-level3" class="screen">
+    <div class="level-header">
+      <div class="level-indicator">NIVEL 3 DE 3</div>
+      <h2>🎁 ¡PREMIO DESBLOQUEADO ESTILO TEMU!</h2>
+      <p>Toca la caja de regalo para abrir tu recompensa épica</p>
+    </div>
+
+    <div class="temu-container">
+      <div class="temu-box-wrapper" id="temuGiftWrapper">
+        <div class="rays-background" id="sunburstRays"></div>
+        
+        <!-- Caja antes de abrir -->
+        <div class="gift-box" id="clickableGiftBox">
+          <div class="gift-lid"></div>
+          <div class="gift-body"></div>
+          <div class="gift-ribbon"></div>
+          <div class="tap-hint">👉 ¡TÓCAME! 👈</div>
+        </div>
+
+        <!-- Producto / Premio revelado con explosión -->
+        <div class="temu-prize-reveal hidden" id="temuPrizeCard">
+          <div class="temu-flash-ring"></div>
+          <div class="prize-tag-temu">🎉 100% OFF • PREMIO EXCLUSIVO 🎉</div>
+          <div class="prize-image-wrap">
+            <img src="Premio/premio.webp" alt="Premio Exclusivo Dani" class="prize-img-pop">
+          </div>
+          <h3 class="prize-title">¡HAS GANADO EL PREMIO DEFINITIVO!</h3>
+          <p class="prize-desc">Nivel de locura y belleza desbloqueado al 1000%</p>
+          
+          <!-- BOTÓN AURA -->
+          <button id="btnAuraUnlock" class="btn-aura-flame pulse-glow">
+            <span class="aura-fire-icon">⚡</span>
+            <span class="aura-btn-text">DESATAR AURA</span>
+            <span class="aura-fire-icon">🔥</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE CENTRAL: PÁGINA CENTRAL DE FELICITACIONES (AURA MÁXIMO) -->
+  <div id="screen-celebration" class="screen">
+    <!-- Canvas para fuegos artificiales y chispas de volcán -->
+    <canvas id="sparks-canvas"></canvas>
+
+    <!-- Personajes flotantes alrededor de la pantalla -->
+    <div class="floating-character char-tl" title="Valerina Capuchina">
+      <img src="Personajes/valerina capuchina.jpg" alt="Valerina Capuchina">
+      <span class="char-caption">Valerina Capuchina</span>
+    </div>
+    <div class="floating-character char-tr" title="Tralalelo Tralala">
+      <img src="Personajes/tralalelo tralala.avif" alt="Tralalelo Tralala">
+      <span class="char-caption">Tralalelo Tralala</span>
+    </div>
+    <div class="floating-character char-br" title="Tung Tung Sahur">
+      <img src="Personajes/tun tun sahur 2.webp" alt="Tung Tung Sahur">
+      <span class="char-caption">Sahurrr</span>
+    </div>
+
+    <div class="celebration-container">
+      
+      <!-- Banner Superior -->
+      <div class="celebration-header">
+        <div class="aura-badge">✨ MODO AURA ACTIVADO ✨</div>
+        <h1 class="main-birthday-title rainbow-text">
+          ¡Feliz Cumpleaños Pequeña PeliRoja!
+        </h1>
+        <div class="subtitle-sparkle">💖 Eres inigualable, divertida y la más especial 💖</div>
+      </div>
+
+      <!-- Tarjeta Central con Tung Tung Sahur Six-Seven + Velas Volcán -->
+      <div class="sahur-stage glass-card-epic">
+        <div class="volcanoes-container">
+          <div class="volcano-candle left-volcano">
+            <div class="spark-fountain"></div>
+            <div class="volcano-body">🌋 6</div>
+          </div>
+          <div class="sahur-center-animation">
+            <div class="crown-aura">👑</div>
+            <!-- Video en loop del Six Seven -->
+            <div class="video-container-aura">
+              <video id="sixSevenVideo" class="sahur-video-dancing" src="Personajes/six_seven.mp4" autoplay loop muted playsinline></video>
+            </div>
+          </div>
+          <div class="volcano-candle right-volcano">
+            <div class="spark-fountain"></div>
+            <div class="volcano-body">🌋 7</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Espacio para el Mensaje Personalizado -->
+      <div class="letter-section glass-card-paper">
+        <div class="letter-header">
+          <span class="stamp-icon">💌</span>
+          <h3>De quienes te queremos para ti:</h3>
+        </div>
+        <div class="letter-body editable-zone" id="birthdayMessageContainer">
+          <!-- Espacio limpio y elegante reservado para las palabras del usuario -->
+          <div class="letter-lines">
+            <p class="placeholder-text">[ Espacio reservado para el mensaje especial de cumpleaños... Puedes escribir o editar aquí tus palabras ]</p>
+          </div>
+        </div>
+        <div class="letter-footer">
+          <button id="btnEditMessage" class="btn-small-toggle">✍️ Escribir / Editar Mensaje</button>
+          <button id="btnSaveMessage" class="btn-small-toggle hidden">💾 Guardar Mensaje</button>
+        </div>
+      </div>
+
+      <!-- Top Personas que te quieren en la fiesta -->
+      <div class="squad-section glass-card-squad">
+        <h3>🏆 Tu Escuadrón Favorito que te Adora:</h3>
+        <div class="squad-grid" id="finalSquadGrid">
+          <div class="squad-pill">🥇 Luchitto Diaz</div>
+          <div class="squad-pill">🥈 Sergei</div>
+          <div class="squad-pill">🥉 Geripsita</div>
+          <div class="squad-pill">⭐ Andreina Roina</div>
+          <div class="squad-pill">👑 Willy Rex</div>
+          <div class="squad-pill">💖 Nellisita Morenita</div>
+        </div>
+      </div>
+
+      <!-- Botón de Confeti Infinito -->
+      <div class="celebration-actions">
+        <button id="btnMoreConfetti" class="btn-aura-flame pulse-slow">
+          🎉 ¡MÁS CONFETI Y CHISPAS! 🎆
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
