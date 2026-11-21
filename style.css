@@ -933,22 +933,16 @@ body {
 }
 
 .letter-body {
-  min-height: 120px;
-  font-size: 1.15rem;
+  min-height: 100px;
+  font-size: 1.12rem;
   line-height: 1.8;
   font-family: 'Montserrat', sans-serif;
-  color: #333;
+  color: #222;
+  font-weight: 500;
 }
-.letter-body.editable-active {
-  outline: 2px solid #ff007f;
-  background: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  user-select: text;
-}
-.placeholder-text {
-  color: #888;
-  font-style: italic;
+.letter-content-text {
+  color: #222;
+  line-height: 1.85;
 }
 
 .letter-footer {
